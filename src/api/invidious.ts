@@ -12,14 +12,16 @@ async function request(path: string) {
 
   for (const instance of instances) {
     try {
-      // GASの仕様に合わせてパスとクエリパラメータを?path=形式に集約・変換
       const targetUrl = new URL(instance)
       const isSubQuery = cleanPath.includes('?')
-      
+
       if (isSubQuery) {
         const [apiPath, searchParams] = cleanPath.split('?')
+
         targetUrl.searchParams.set('path', apiPath)
+
         const params = new URLSearchParams(searchParams)
+
         params.forEach((value, key) => {
           targetUrl.searchParams.set(key, value)
         })
