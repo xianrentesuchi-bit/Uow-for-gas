@@ -1,20 +1,18 @@
 import axios, { AxiosError } from 'axios'
 
-// 修正されたVercel EdgeプロキシサーバーのベースURL
 const instances = [
-  'https://uow-bakend12.vercel.app' // URL末尾の重複スラッシュを防ぐため、/ を削除しました
+  'https://uow-bakend12.vercel.app'
 ]
 
 async function request(path: string) {
-  // パスの先頭にスラッシュがない場合は自動で補完する安全策
   const cleanPath = path.startsWith('/') ? path : `/${path}`
 
   for (const instance of instances) {
     try {
-      // サーバーレス・Edge環境の応答速度を活かすため、5秒のタイムアウトを設定
       const res = await axios.get(`${instance}${cleanPath}`, {
         timeout: 5000
       })
+
       return res.data
     } catch (e) {
       const error = e as AxiosError
@@ -24,10 +22,6 @@ async function request(path: string) {
 
   throw new Error('All instances failed to respond.')
 }
-
-// ==========================================
-// 既存のAPI関数（しっかり取得できるように調整）
-// ==========================================
 
 export async function searchVideos(query: string) {
   return request(`/api/v1/search?q=${encodeURIComponent(query)}&type=video`)
