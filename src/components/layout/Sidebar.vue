@@ -3,12 +3,18 @@
     <nav class="sidebar-nav">
       <router-link v-for="item in menuItems" :key="item.path" :to="item.path" class="sidebar-item">
         <span class="material-symbols-outlined">{{ item.icon }}</span>
-        <span class="sidebar-label">{{ item.label }}</span>
+
+        <span v-if="!isCompact" class="sidebar-label">
+          {{ item.label }}
+        </span>
       </router-link>
 
       <button type="button" class="sidebar-item sidebar-button" @click="$emit('open-settings')">
         <span class="material-symbols-outlined">settings</span>
-        <span class="sidebar-label">設定</span>
+
+        <span v-if="!isCompact" class="sidebar-label">
+          設定
+        </span>
       </button>
     </nav>
   </aside>
@@ -51,10 +57,19 @@ const sidebarClass = computed(() => ({
   z-index: 100;
 }
 
-.sidebar.is-compact { width: 70px; }
-.sidebar.is-hidden { transform: translateX(-100%); }
+.sidebar.is-compact {
+  width: 70px;
+}
 
-.sidebar-nav { display: flex; flex-direction: column; padding: 12px 0; }
+.sidebar.is-hidden {
+  transform: translateX(-100%);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+}
 
 .sidebar-item {
   display: flex;
@@ -65,14 +80,30 @@ const sidebarClass = computed(() => ({
   gap: 24px;
 }
 
-.sidebar-button { background: none; border: none; cursor: pointer; width: 100%; text-align: left; }
+.sidebar-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
 
 /* コンパクト時の表示調整 */
-.is-compact .sidebar-item { flex-direction: column; padding: 16px 0; gap: 6px; }
-.is-compact .sidebar-label { font-size: 10px; }
+.is-compact .sidebar-item {
+  justify-content: center;
+  padding: 16px 0;
+}
 
-.sidebar-item:hover { background: #f2f2f2; }
-.sidebar-item.router-link-active { font-weight: bold; color: #cc0000; }
+.sidebar-item:hover {
+  background: #f2f2f2;
+}
 
-.material-symbols-outlined { font-size: 24px; }
+.sidebar-item.router-link-active {
+  font-weight: bold;
+  color: #cc0000;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+}
 </style>
