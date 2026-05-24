@@ -120,6 +120,30 @@ async function loadVideo() {
     const id = route.params.id as string
 
     video.value = await getVideo(id)
+    const history = JSON.parse(
+  localStorage.getItem('watch-history') || '[]'
+)
+
+const newVideo = {
+  videoId: video.value.videoId,
+  title: video.value.title,
+  thumbnail: `https://i.ytimg.com/vi/${video.value.videoId}/hqdefault.jpg`
+}
+
+const exists = history.findIndex(
+  (v: any) => v.videoId === video.value.videoId
+)
+
+if (exists !== -1) {
+  history.splice(exists, 1)
+}
+
+history.unshift(newVideo)
+
+localStorage.setItem(
+  'watch-history',
+  JSON.stringify(history.slice(0, 100))
+)
 
     expandedDescription.value = false
 
