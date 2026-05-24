@@ -100,7 +100,7 @@ watch(
           <!-- STREAM SELECT -->
           <div class="mt-4 flex items-center gap-3">
             <div class="font-semibold text-sm text-zinc-600">
-              Player
+              プレイヤー
             </div>
 
             <select
@@ -130,7 +130,10 @@ watch(
           <div class="flex items-center justify-between mt-5 flex-wrap gap-4">
 
             <!-- CHANNEL -->
-            <div class="flex items-center gap-4">
+            <RouterLink
+              :to="`/channel/${video?.authorId}`"
+              class="flex items-center gap-4"
+            >
 
               <img
                 :src="video?.authorThumbnails?.[2]?.url"
@@ -150,9 +153,10 @@ watch(
               <button
                 class="bg-black text-white px-5 h-9 rounded-full font-semibold hover:bg-zinc-800 transition"
               >
-                Subscribe
+                登録
               </button>
-            </div>
+
+            </RouterLink>
 
             <!-- BUTTONS -->
             <div class="flex items-center gap-2 flex-wrap">
@@ -173,14 +177,14 @@ watch(
               <button
                 class="bg-zinc-100 hover:bg-zinc-200 transition px-5 h-10 rounded-full font-semibold"
               >
-                Share
+                共有
               </button>
 
               <button
                 class="bg-black text-white hover:bg-zinc-800 transition px-5 h-10 rounded-full font-semibold"
                 @click="downloadModal = true"
               >
-                Download
+                ダウンロード
               </button>
 
             </div>
@@ -194,7 +198,7 @@ watch(
               {{
                 Intl.NumberFormat().format(video?.viewCount || 0)
               }}
-              views
+              回視聴
             </div>
 
             <div class="mt-3 whitespace-pre-wrap text-[15px] leading-7">
@@ -206,7 +210,7 @@ watch(
           <div class="mt-8">
 
             <h2 class="text-xl font-bold mb-6">
-              Comments
+              コメント
               ({{ comments.length }})
             </h2>
 
@@ -249,7 +253,7 @@ watch(
                   </div>
 
                   <button class="hover:text-black">
-                    Reply
+                    返信
                   </button>
 
                 </div>
@@ -293,7 +297,7 @@ watch(
                       related.viewCount || 0
                     )
                   }}
-                  views
+                  回視聴
                 </div>
 
                 <div class="text-sm text-zinc-500 mt-1">
