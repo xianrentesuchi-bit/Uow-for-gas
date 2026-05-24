@@ -1,12 +1,14 @@
 <!-- components/video/VideoPlayer.vue -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
   id: string
   stream?: string
   formatStreams?: any[]
 }>()
+
+const videoRef = ref<HTMLVideoElement | null>(null)
 
 const selectedVideo = computed(() => {
   if (!props.formatStreams?.length) {
@@ -25,6 +27,22 @@ const selectedVideo = computed(() => {
     props.formatStreams[0]
   )
 })
+
+watch(
+  () => props.stream,
+  async () => {
+    if (
+      props.stream === 'stream' &&
+      videoRef.value
+    ) {
+      videoRef.value.load()
+
+      try {
+        await videoRef.value.play()
+      } catch {}
+    }
+  }
+)
 </script>
 
 <template>
@@ -32,7 +50,11 @@ const selectedVideo = computed(() => {
     class="w-full aspect-video rounded-2xl border border-zinc-200 overflow-hidden bg-black"
   >
     <video
-      v-if="selectedVideo"
+      v-if="
+        selectedVideo &&
+        stream === 'stream'
+      "
+      ref="videoRef"
       class="w-full h-full"
       controls
       autoplay
@@ -46,6 +68,7 @@ const selectedVideo = computed(() => {
 
     <iframe
       v-else
+      :key="`${stream}-${id}`"
       class="w-full h-full"
       :src="
         stream === 'youtube'
