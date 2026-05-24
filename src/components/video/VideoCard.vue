@@ -11,12 +11,15 @@ defineProps<{
   >
     <div>
       <img
-        :src="video.videoThumbnails?.[3]?.url || video.videoThumbnails?.[0]?.url"
+        :src="`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`"
         class="w-full rounded-xl aspect-video object-cover"
       />
 
       <div class="flex mt-3 gap-3">
-        <div class="w-9 h-9 rounded-full bg-zinc-700"></div>
+        <img
+          :src="video.authorThumbnails?.[0]?.url"
+          class="w-9 h-9 rounded-full object-cover"
+        />
 
         <div>
           <div class="font-semibold line-clamp-2">
