@@ -28,6 +28,8 @@ const props = defineProps({
   isCompact: { type: Boolean, default: false }
 });
 
+defineEmits(['open-settings']);
+
 const menuItems = [
   { path: '/', label: 'ホーム', icon: 'home' },
   { path: '/subscriptions', label: '登録チャンネル', icon: 'subscriptions' },
@@ -88,7 +90,6 @@ const sidebarClass = computed(() => ({
   text-align: left;
 }
 
-/* コンパクト時の表示調整 */
 .is-compact .sidebar-item {
   justify-content: center;
   padding: 16px 0;
