@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, defineEmits } from 'vue'
 import { useRouter } from 'vue-router'
 import youtubeLogoBase64 from '../img/youtubelogo.txt?raw'
+
+const emit = defineEmits(['toggle-sidebar'])
 
 const query = ref('')
 const router = useRouter()
@@ -10,9 +12,6 @@ const router = useRouter()
 const notifications = ref<any[]>([])
 const showNotifications = ref(false)
 const notificationRef = ref<HTMLElement | null>(null)
-
-// サイドバー制御用の状態追加
-const isSidebarOpen = ref(true)
 
 // 未読件数の計算
 const unreadCount = () => notifications.value.filter(n => n.unread).length
@@ -54,12 +53,15 @@ function search() {
 
 <template>
   <header class="h-14 flex items-center justify-between px-4 fixed top-0 left-0 right-0 bg-white text-black z-50 select-none">
-    
+      
     <div class="flex items-center gap-4">
-      <button @click="isSidebarOpen = !isSidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 active:bg-zinc-200 transition-colors">
+      <button
+        @click="emit('toggle-sidebar')"
+        class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 active:bg-zinc-200 transition-colors"
+      >
         <span class="material-symbols-outlined text-[24px]">menu</span>
       </button>
-      
+          
       <a href="/" class="flex items-center cursor-pointer" style="height: 40px;">
         <img 
           :src="youtubeLogoBase64.trim().startsWith('data:') ? youtubeLogoBase64.trim() : 'data:image/jpeg;base64,' + youtubeLogoBase64.replace(/\s/g, '')" 
