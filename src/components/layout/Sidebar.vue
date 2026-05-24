@@ -33,7 +33,7 @@ defineEmits(['open-settings']);
 const menuItems = [
   { path: '/', label: 'ホーム', icon: 'home' },
   { path: '/subscribers', label: '登録チャンネル', icon: 'subscriptions' },
-  { path: '/playlists', label: '再生リスト', icon: 'playlist_play' },
+  { path: '/playlist', label: '再生リスト', icon: 'playlist_play' },
   { path: '/history', label: '履歴', icon: 'history' }
 ];
 
