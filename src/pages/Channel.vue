@@ -26,9 +26,43 @@ onMounted(async () => {
   try {
     const id = route.params.id as string
 
-    channel.value = await getChannel(id)
+    const channelData = await getChannel(id)
 
-    videos.value = await getChannelVideos(id)
+    channel.value = {
+      ...channelData,
+
+      banner:
+        channelData.authorBanners?.[
+          channelData.authorBanners.length - 1
+        ]?.url ||
+        `https://yt3.googleusercontent.com`,
+
+      avatar:
+        channelData.authorThumbnails?.[
+          channelData.authorThumbnails.length - 1
+        ]?.url ||
+        `https://yt3.ggpht.com/ytc/default-user=s800-c-k-c0x00ffffff-no-rj`
+    }
+
+    const channelVideos = await getChannelVideos(id)
+
+    videos.value = channelVideos.map((video: any) => ({
+      ...video,
+
+      description:
+        video.description ||
+        video.descriptionHtml ||
+        '',
+
+      thumbnail:
+        video.videoThumbnails?.[
+          video.videoThumbnails.length - 1
+        ]?.url ||
+        `https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`,
+
+      authorThumbnail:
+        channel.value.avatar
+    }))
   } finally {
     loading.value = false
   }
@@ -47,8 +81,7 @@ onMounted(async () => {
 
       <div class="relative h-[240px] bg-gray-200">
         <img
-          v-if="channel?.authorBanners?.[0]?.url"
-          :src="channel.authorBanners[0].url"
+          :src="channel?.banner"
           class="w-full h-full object-cover"
         />
       </div>
@@ -58,7 +91,7 @@ onMounted(async () => {
         <div class="flex gap-8 pt-8">
 
           <img
-            :src="channel?.authorThumbnails?.[0]?.url"
+            :src="channel?.avatar"
             class="w-40 h-40 rounded-full object-cover border-4 border-white -mt-20 shadow-md"
           />
 
@@ -77,7 +110,7 @@ onMounted(async () => {
             </div>
 
             <div class="mt-4 text-gray-700 whitespace-pre-wrap">
-              {{ channel?.description }}
+              {{ channel?.description || '' }}
             </div>
 
             <button
