@@ -22,9 +22,21 @@ export default defineConfig({
 
     cssCodeSplit: false,
 
+    modulePreload: false,
+
     rollupOptions: {
       output: {
-        inlineDynamicImports: true
+        inlineDynamicImports: true,
+
+        manualChunks: undefined,
+
+        format: 'iife',
+
+        entryFileNames: 'index.js',
+
+        chunkFileNames: 'index.js',
+
+        assetFileNames: 'index.[ext]',
       }
     }
   }
