@@ -30,8 +30,6 @@ export default defineConfig({
 
         manualChunks: undefined,
 
-        format: 'iife',
-
         entryFileNames: 'index.js',
 
         chunkFileNames: 'index.js',
