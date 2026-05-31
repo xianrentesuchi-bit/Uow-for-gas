@@ -8,6 +8,9 @@ import Channel from '../pages/Channel.vue'
 import Subscribers from '../pages/Subscribers.vue'
 import History from '../pages/History.vue'
 import Playlist from '../pages/Playlist.vue'
+import MyPage from '../pages/mypage.vue'
+import Help from '../pages/help.vue'
+import NotFound from '../pages/404.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -51,6 +54,20 @@ const router = createRouter({
       path: '/playlist',
       component: Playlist,
 　　 },
+     {
+      path: '/mypage',
+      component: MyPage,
+    },
+
+    {
+      path: '/help',
+      component: Help,
+    },
+
+    {
+      path: '/:pathMatch(.*)*',
+      component: NotFound,
+    },
   ],
 })
 
