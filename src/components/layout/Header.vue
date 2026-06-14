@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import youtubeLogoBase64 from '../img/youtubelogo.txt?raw'
 import Voice from './voice.vue'
 import Account from './account.vue'
-import { fetchSuggestions } from '../api/suggest'
+import { fetchSuggestions } from '../../api/suggest'
 
 const emit = defineEmits(['toggle-sidebar'])
 
