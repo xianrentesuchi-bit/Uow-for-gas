@@ -1,4 +1,3 @@
-<!-- components/video/VideoPlayer.vue -->
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 
@@ -43,6 +42,15 @@ watch(
     }
   }
 )
+
+// 現在のブラウザURLから末尾のIDを取得する関数
+const getUrlId = () => {
+  if (typeof window !== 'undefined') {
+    const parts = window.location.href.split('/')
+    return parts[parts.length - 1] || props.id
+  }
+  return props.id
+}
 </script>
 
 <template>
@@ -73,7 +81,7 @@ watch(
       :src="
         stream === 'youtube'
           ? `https://www.youtube.com/embed/${id}`
-          : `https://www.youtube-nocookie.com/embed/${id}`
+          : `https://www.youtube-nocookie.com/embed/${getUrlId()}`
       "
       allowfullscreen
     />
