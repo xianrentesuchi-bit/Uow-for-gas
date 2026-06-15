@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
   id: string
@@ -43,14 +43,28 @@ watch(
   }
 )
 
-// 現在のブラウザURLから末尾のIDを取得する関数
-const getUrlId = () => {
+// 現在のURLの末尾からIDをしっかり取得・監視するための設定
+const currentUrlId = ref(props.id)
+
+const updateIdFromUrl = () => {
   if (typeof window !== 'undefined') {
     const parts = window.location.href.split('/')
-    return parts[parts.length - 1] || props.id
+    const lastPart = parts[parts.length - 1]
+    currentUrlId.value = lastPart || props.id
   }
-  return props.id
 }
+
+onMounted(() => {
+  updateIdFromUrl()
+  // URLのハッシュや履歴が変わったイベントを検知してIDを更新
+  window.addEventListener('hashchange', updateIdFromUrl)
+  window.addEventListener('popstate', updateIdFromUrl)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('hashchange', updateIdFromUrl)
+  window.removeEventListener('popstate', updateIdFromUrl)
+})
 </script>
 
 <template>
@@ -81,7 +95,7 @@ const getUrlId = () => {
       :src="
         stream === 'youtube'
           ? `https://www.youtube.com/embed/${id}`
-          : `https://www.youtube-nocookie.com/embed/${getUrlId()}`
+          : `https://www.youtube-nocookie.com/embed/${currentUrlId}`
       "
       allowfullscreen
     />
